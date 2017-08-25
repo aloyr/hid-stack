@@ -33,6 +33,7 @@ services:
       - ${WWW_ROOT}:/var/www/html
       - ./settings.php:/var/www/html/sites/default/settings.php
       - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./drush:/usr/local/bin/drush
     links:
       - db
       - redis
