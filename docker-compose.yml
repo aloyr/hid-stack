@@ -31,6 +31,7 @@ services:
     volumes:
       - ${WWW_ROOT}:/var/www/html
       - ./settings.php:/var/www/html/sites/default/settings.php
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     links:
       - db
       - redis
