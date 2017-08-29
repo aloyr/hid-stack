@@ -6,10 +6,10 @@ services:
       - WWW_PORT
     image: nginx
     volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./config/default.conf:/etc/nginx/conf.d/default.conf
       - ${WWW_ROOT}:/var/www/html
-      - ./settings.php:/var/www/html/sites/default/settings.php
-      - ./drush:/usr/local/bin/drush
+      - ./config/settings.php:/var/www/html/sites/default/settings.php
+      - ./lib/drush:/usr/local/bin/drush
     ports:
       - "${WWW_PORT}:80"
     links:
@@ -32,9 +32,9 @@ services:
       - "9000"
     volumes:
       - ${WWW_ROOT}:/var/www/html
-      - ./settings.php:/var/www/html/sites/default/settings.php
-      - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./drush:/usr/local/bin/drush
+      - ./config/settings.php:/var/www/html/sites/default/settings.php
+      - ./config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./lib/drush:/usr/local/bin/drush
     links:
       - db
       - redis
