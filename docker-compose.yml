@@ -3,6 +3,7 @@ services:
   www:
     environment:
       - WWW_ROOT
+      - WWW_DOCROOT
       - WWW_PORT
     image: nginx
     volumes:
@@ -29,6 +30,7 @@ services:
   php:
     environment:
       - WWW_ROOT
+      - WWW_DOCROOT
       - DNS_SERVER
     image: aloyr/php
     expose:
