@@ -17,6 +17,7 @@ services:
   db:
     environment:
       - DB_PORT
+      - MYSQL_DATABASE
       - MYSQL_ROOT_PASSWORD
     image: mariadb
     ports:
