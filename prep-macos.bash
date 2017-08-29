@@ -6,8 +6,8 @@ echo "setting up local dns resolution if needed"
 echo "nameserver $HOSTMACHINE_IP" | sudo tee /etc/resolver/dev > /dev/null
 echo "checking config files"
 function checkfiles() {
-if [ ! -f $2 ]; then
-  cp $1 $2
+if [ ! -f $1 ]; then
+  cp $2 $1
   echo ""
   echo "file created with default settings: $1"
 fi
