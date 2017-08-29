@@ -25,6 +25,7 @@ services:
       - "${DB_PORT}:3306"
     volumes:
       - mariadb:/var/lib/mysql
+      - ./config/dbs:/docker-entry-point-initdb.d
   php:
     environment:
       - WWW_ROOT
