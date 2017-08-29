@@ -26,6 +26,7 @@ services:
   php:
     environment:
       - WWW_ROOT
+      - DNS_SERVER
     image: aloyr/php
     expose:
       - "9000"
