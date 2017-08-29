@@ -9,6 +9,7 @@ services:
       - ./config/default.conf:/etc/nginx/conf.d/default.conf
       - ${WWW_ROOT}:/var/www/html
       - ./config/settings.php:/var/www/html/sites/default/settings.php
+      - ./config/settings.local.php:/var/www/html/sites/default/settings.local.php
       - ./lib/drush:/usr/local/bin/drush
     ports:
       - "${WWW_PORT}:80"

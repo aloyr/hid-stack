@@ -1,6 +1,7 @@
 config/dbs/*
 !config/dbs/README.md
 config/settings.php
+config/settings.local.php
 
 # Created by https://www.gitignore.io/api/vim,phpstorm,kate
 
