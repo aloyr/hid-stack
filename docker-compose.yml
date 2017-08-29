@@ -42,5 +42,13 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+  dns:
+    image: ruudud/devdns
+    environment:
+      - HOSTMACHINE_IP
+    ports:
+      - "53:53/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 volumes:
   mariadb:
