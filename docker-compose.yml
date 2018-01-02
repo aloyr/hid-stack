@@ -49,7 +49,7 @@ services:
     ports:
       - "6379:6379"
   dns:
-    image: ruudud/devdns
+    image: aloyr/devdns
     environment:
       - HOSTMACHINE_IP
     ports:
