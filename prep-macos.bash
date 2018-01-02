@@ -18,7 +18,7 @@ HOSTMACHINE_IP="172.16.123.45"
 echo "creating loopback alias if needed"
 sudo ifconfig lo0 alias $HOSTMACHINE_IP
 echo "setting up local dns resolution if needed"
-echo "nameserver $HOSTMACHINE_IP" | sudo tee /etc/resolver/dev > /dev/null
+echo "nameserver $HOSTMACHINE_IP" | sudo tee /etc/resolver/test > /dev/null
 
 echo ""
 echo "if any files were created with the default settings, you will need to customize them before this stack is usable"

@@ -1,7 +1,7 @@
 server {
     fastcgi_read_timeout 7d;
     listen 80 default_server;
-    server_name hidglobal.dev www.hidglobal.dev hidglobal7.dev www.hidglobal7.dev;
+    server_name hidglobal.test www.hidglobal.test hidglobal7.test www.hidglobal7.test;
     root /var/www/html; ## <-- Your only path reference.
 
     location = /favicon.ico {
