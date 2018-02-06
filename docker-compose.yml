@@ -53,7 +53,7 @@ services:
     environment:
       - HOSTMACHINE_IP
     ports:
-      - "53:53/udp"
+      - "${HOSTMACHINE_IP}:53:53/udp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 volumes:
