@@ -44,6 +44,7 @@ services:
     links:
       - db
       - redis
+      - mailcatcher
   redis:
     image: redis:alpine
     ports:
@@ -56,6 +57,13 @@ services:
       - "${HOSTMACHINE_IP}:53:53/udp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  mailcatcher:
+    image: schickling/mailcatcher
+    deploy:
+      replicas: 1
+    ports:
+      - "1080:1080"
+      - "1025:1025"
 volumes:
   mariadb:
     labels:
