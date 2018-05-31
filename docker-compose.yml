@@ -27,12 +27,14 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
       - ./config/dbs:/docker-entrypoint-initdb.d
+      - ./log:/var/log
+      - ./config/mariadb.conf.d:/etc/mysql/conf.d
   php:
     environment:
       - WWW_ROOT
       - WWW_DOCROOT
       - DNS_SERVER
-    image: aloyr/php
+    image: aloyr/php:7.1-alpine37
     expose:
       - "9000"
     volumes:
@@ -43,6 +45,7 @@ services:
       - ./lib/drush:/usr/local/bin/drush
     links:
       - db
+      - mailcatcher
       - redis
       - mailcatcher
   redis:
