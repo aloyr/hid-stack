@@ -35,7 +35,7 @@ if [ "$1" == "add" ]; then
     echo ""
     echo '$d4dd_settings = __DIR__ . '/settings.d4dd.php';'
     echo 'if (file_exists($d4dd_settings)) {'
-    echo '  include $d4dd_settings'
+    echo '  include $d4dd_settings;'
     echo '}'
     cat $BASE/templates/settings.d4dd.php | sed "s^##SITENAME##^$2^g" > $BASE/sites/$2/settings.d4dd.php 
     echo ""
