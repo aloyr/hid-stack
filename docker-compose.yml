@@ -47,7 +47,6 @@ services:
       - db
       - mailcatcher
       - redis
-      - mailcatcher
   redis:
     image: redis:alpine
     ports:
