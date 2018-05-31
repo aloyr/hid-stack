@@ -33,7 +33,7 @@ if [ "$1" == "add" ]; then
     echo "creating default settings.d4dd.php file"
     echo "make sure your main settings.php has this at the end:"
     echo ""
-    echo '$d4dd_settings = __DIR__ . '/settings.d4dd.php';'
+    echo "\$d4dd_settings = __DIR__ . '/settings.d4dd.php';"
     echo 'if (file_exists($d4dd_settings)) {'
     echo '  include $d4dd_settings;'
     echo '}'
