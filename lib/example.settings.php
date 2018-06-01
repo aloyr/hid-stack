@@ -812,6 +812,8 @@ $settings['cache']['default'] = 'cache.backend.redis';
 $settings['redis.connection']['base'] = 1;
 $settings['cache_prefix'] = 'd8_';
 
+// container cache snippet from:
+// https://github.com/md-systems/redis/issues/12#issuecomment-282270087
 if (class_exists(\Composer\Autoload\ClassLoader::class)) {
   $loader = new \Composer\Autoload\ClassLoader();
   $loader->addPsr4('Drupal\\redis\\', 'modules/redis/src');
