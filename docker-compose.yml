@@ -42,6 +42,8 @@ services:
       - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php
       - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php
       - ./config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./config/xdebug.ini:/etc/php7/conf.d/xdebug.ini
+      - ./config/php/d4dd.ini:/etc/php7/conf.d/d4dd.ini
       - ./lib/drush:/usr/local/bin/drush
     links:
       - db
@@ -51,6 +53,9 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+    volumes:
+      - ./config/redis/redis.conf:/etc/redis.conf
+    command: ['redis-server', '/etc/redis.conf']
   dns:
     image: aloyr/devdns
     environment:
