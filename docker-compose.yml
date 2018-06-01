@@ -12,6 +12,8 @@ services:
       - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php
       - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php
       - ./lib/drush:/usr/local/bin/drush
+      - ./lib/d4dd-status:/var/www/d4dd
+      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf
     ports:
       - "${WWW_PORT}:80"
     links:
@@ -46,6 +48,8 @@ services:
       - ./config/xdebug.ini:/etc/php7/conf.d/xdebug.ini
       - ./config/php/d4dd.ini:/etc/php7/conf.d/d4dd.ini
       - ./lib/drush:/usr/local/bin/drush
+      - ./lib/d4dd-status:/var/www/d4dd
+      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf
     links:
       - db
       - mailcatcher
