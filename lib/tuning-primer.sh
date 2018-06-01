@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# source: https://raw.githubusercontent.com/mattiabasone/tuning-primer/master/tuning-primer.sh
+
 # set tabstop=8
 #########################################################################
 #                                                                       #
