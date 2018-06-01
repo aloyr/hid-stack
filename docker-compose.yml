@@ -29,6 +29,7 @@ services:
       - ./config/dbs:/docker-entrypoint-initdb.d
       - ./log:/var/log
       - ./config/mariadb.conf.d:/etc/mysql/conf.d
+      - ./lib/tuning-primer.sh:/usr/local/bin/tuning-primer.sh
   php:
     environment:
       - WWW_ROOT
