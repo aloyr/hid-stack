@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo ifconfig lo0 alias 172.16.123.45
 self=$0
 if [ -L $self ]; then
   self=$(readlink $self)
@@ -6,6 +7,10 @@ fi
 BASE=$(dirname $self)
 cd /Users/peter/workspace/hid/docker
 echo ""
+
+function dockerLogs() {
+  /usr/local/bin/docker-compose -f $BASE/docker-compose.yml $(find $BASE/sites -type f -iname docker-compose.yml | while read file; do echo -ne " -f $file"; done) logs -f -t --tail 1000
+}
 
 function dockerComposeAll() {
   /usr/local/bin/docker-compose -f $BASE/docker-compose.yml $(find $BASE/sites -type f -iname docker-compose.yml | while read file; do echo -ne " -f $file"; done) $@ 2> /dev/null
@@ -69,6 +74,17 @@ find $BASE/sites -type f -iname docker-compose.yml | while read file; do
 done
 
 echo ""
+
+if [ "$1" == "up" ]; then
+  /usr/local/bin/docker-compose -f $BASE/docker-compose.yml $(find $BASE/sites -type f -iname docker-compose.yml | while read file; do echo -ne " -f $file"; done) $@ -d &
+  dockerLogs
+  exit 0
+fi
+
+if [ "$1" == "logs" ]; then
+  dockerLogs
+  exit 0
+fi
 
 /usr/local/bin/docker-compose -f $BASE/docker-compose.yml $(find $BASE/sites -type f -iname docker-compose.yml | while read file; do echo -ne " -f $file"; done) $@
 

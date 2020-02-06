@@ -2,15 +2,15 @@ version: '3'
 services:
   www:
     volumes:
-      - ##PROJECTROOT##:/var/www/##SITENAME##
-      - ./sites/##SITENAME##/##SITENAME##.conf:/etc/nginx/conf.d/##SITENAME##.conf
-      - ./sites/##SITENAME##/settings.d4dd.php:/var/www/##SITENAME####DOCROOT##/sites/default/settings.d4dd.php
+      - ##PROJECTROOT##:/var/www/##SITENAME##:delegated
+      - ./sites/##SITENAME##/##SITENAME##.conf:/etc/nginx/conf.d/##SITENAME##.conf:delegated
+      - ./sites/##SITENAME##/settings.d4dd.php:/var/www/##SITENAME####DOCROOT##/sites/default/settings.d4dd.php:delegated
   php:
     volumes:
-      - ##PROJECTROOT##:/var/www/##SITENAME##
-      - ./sites/##SITENAME##/settings.d4dd.php:/var/www/##SITENAME####DOCROOT##/sites/default/settings.d4dd.php
+      - ##PROJECTROOT##:/var/www/##SITENAME##:delegated
+      - ./sites/##SITENAME##/settings.d4dd.php:/var/www/##SITENAME####DOCROOT##/sites/default/settings.d4dd.php:delegated
   db:
     volumes:
-      - ./sites/##SITENAME##/db.sql.gz:/docker-entrypoint-initdb.d/##SITENAME##.sql.gz
+      - ./sites/##SITENAME##/db.sql.gz:/docker-entrypoint-initdb.d/##SITENAME##.sql.gz:delegated
 
 

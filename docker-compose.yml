@@ -8,12 +8,12 @@ services:
     image: nginx
     volumes:
       - ./config/default.conf:/etc/nginx/conf.d/default.conf
-      - ${WWW_ROOT}:/var/www/html
-      - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php
-      - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php
-      - ./lib/drush:/usr/local/bin/drush
-      - ./lib/d4dd-status:/var/www/d4dd
-      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf
+      - ${WWW_ROOT}:/var/www/html:delegated
+      - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php:delegated
+      - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php:delegated
+      - ./lib/drush:/usr/local/bin/drush:delegated
+      - ./lib/d4dd-status:/var/www/d4dd:delegated
+      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf:delegated
     ports:
       - "${WWW_PORT}:80"
     links:
@@ -27,33 +27,36 @@ services:
     ports:
       - "${DB_PORT}:3306"
     volumes:
-      - mariadb:/var/lib/mysql
-      - ./config/dbs:/docker-entrypoint-initdb.d
-      - ./log:/var/log
-      - ./config/mariadb.conf.d:/etc/mysql/conf.d
-      - ./lib/tuning-primer.sh:/usr/local/bin/tuning-primer.sh
+      - mariadb:/var/lib/mysql:delegated
+      - ./config/dbs:/docker-entrypoint-initdb.d:delegated
+      - ./log:/var/log:delegated
+      - ./config/mariadb.conf.d:/etc/mysql/conf.d:delegated
+      - ./lib/tuning-primer.sh:/usr/local/bin/tuning-primer.sh:delegated
+      - ./lib/mysqltuner:/usr/local/bin/mysqltuner:delegated
   php:
     environment:
       - WWW_ROOT
       - WWW_DOCROOT
       - DNS_SERVER
-    image: aloyr/php:7.1-alpine37
+    image: aloyr/php:7.2-alpine3.9
+    #image: aloyr/php:7.1-alpine37
     expose:
       - "9000"
     volumes:
-      - ${WWW_ROOT}:/var/www/html
-      - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php
-      - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php
-      - ./config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./config/xdebug.ini:/etc/php7/conf.d/xdebug.ini
-      - ./config/php/d4dd.ini:/etc/php7/conf.d/d4dd.ini
-      - ./lib/drush:/usr/local/bin/drush
-      - ./lib/d4dd-status:/var/www/d4dd
-      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf
+      - ${WWW_ROOT}:/var/www/html:delegated
+      - ./config/settings.php:/var/www/html${WWW_DOCROOT}sites/default/settings.php:delegated
+      - ./config/settings.local.php:/var/www/html${WWW_DOCROOT}sites/default/settings.local.php:delegated
+      - ./config/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:delegated
+      - ./config/xdebug.ini:/etc/php7/conf.d/xdebug.ini:delegated
+      - ./config/php/d4dd.ini:/etc/php7/conf.d/d4dd.ini:delegated
+      - ./lib/drush:/usr/local/bin/drush:delegated
+      - ./lib/d4dd-status:/var/www/d4dd:delegated
+      - ./lib/d4dd.conf:/etc/nginx/conf.d/d4dd.conf:delegated
     links:
       - db
       - mailcatcher
       - redis
+      - solr
   redis:
     image: redis:alpine
     ports:
@@ -66,17 +69,41 @@ services:
     environment:
       - HOSTMACHINE_IP
     ports:
-      - "${HOSTMACHINE_IP}:53:53/udp"
+      - "127.0.0.1:53:53/udp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   mailcatcher:
     image: schickling/mailcatcher
-    deploy:
-      replicas: 1
+    #    deploy:
+    #  replicas: 1
     ports:
       - "1080:1080"
       - "1025:1025"
+  solr:
+    image: actency/docker-solr:4.10
+    ports:
+      - "8983:8983"
+    volumes:
+      - ./config/solr/schema.xml:/opt/solr/example/solr/collection1/conf/schema.xml
+      - ./config/solr/schema_extra_fields.xml:/opt/solr/example/solr/collection1/conf/schema_extra_fields.xml
+      - ./config/solr/schema_extra_types.xml:/opt/solr/example/solr/collection1/conf/schema_extra_types.xml
+      - ./config/solr/solrconfig.xml:/opt/solr/example/solr/collection1/conf/solrconfig.xml
+      - ./config/solr/solrconfig_extra.xml:/opt/solr/example/solr/collection1/conf/solrconfig_extra.xml
+
+  portainer:
+    image: portainer/portainer
+    ports:
+      - "8888:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
 volumes:
   mariadb:
     labels:
       - "persistent" 
+  portainer_data:
+    labels:
+      - "persistent"
+  php_folder:
+
