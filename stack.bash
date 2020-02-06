@@ -27,6 +27,11 @@ if [ "$1" == "add" ]; then
   else
     echo "all looks ok, proceeding."
     mkdir -p $BASE/sites/$2
+    echo "creating site config file"
+    configFile="$BASE/sites/$2/stack-site.yml"
+    echo "name: $2" >> $configFile
+    echo "project_root: $3" >> $configFile
+    echo "web_root: $4" >> $configFile
     echo "setting up nginx config"
     docroot="${2}${4}"
     cat $BASE/templates/nginx.conf | sed -e "s^##SITENAME##^$2^g" -e "s^##DOCROOT##^$docroot^g"> $BASE/sites/$2/$2.conf
@@ -64,7 +69,12 @@ fi
 if [ "$1" == "list" ]; then
   echo ""
   echo "Sites configured:"
-  ls $BASE/sites | while read site; do echo "- $site"; done
+  ls $BASE/sites | while read site; do
+    project_root=$(cat $BASE/sites/$site/stack-site.yml | awk '$0 ~ /project_root/ {print $2}')
+    web_root=${project_root}$(cat $BASE/sites/$site/stack-site.yml | awk '$0 ~ /web_root/ {print $2}')
+    status=$(if [ -d $web_root ]; then echo 'ok'; else echo 'error'; fi)
+    echo "- $site - $status" 
+  done
   exit 0
 fi
 
